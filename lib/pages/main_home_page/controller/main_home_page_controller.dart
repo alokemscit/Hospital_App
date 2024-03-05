@@ -6,6 +6,7 @@ import 'package:asgar_ali_hospital/pages/home_page/home_page.dart';
 import 'package:asgar_ali_hospital/pages/lab_report_page/lab_report_page.dart';
 import 'package:asgar_ali_hospital/pages/login_page/auth_provider/auth-provider.dart';
 import 'package:asgar_ali_hospital/pages/login_page/login_page.dart';
+import 'package:asgar_ali_hospital/pages/prescription_page/prescription_page.dart';
 import 'package:get/get.dart';
 
 class MainHomePagaeController extends GetxController {
@@ -17,9 +18,7 @@ class MainHomePagaeController extends GetxController {
     const HomePage(),
     const DoctorPage(),
     const LabReportPage(),
-    Container(
-      color: Colors.green,
-    ),
+    const PrescriptionPage(),
     Container(
       color: Colors.black,
     ),

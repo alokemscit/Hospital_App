@@ -58,8 +58,8 @@ class MainHomePagae extends StatelessWidget {
                 label: 'Prescription',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
+                icon: Icon(Icons.devices_other_sharp),
+                label: 'Others',
               ),
             ],
             currentIndex: controller.currentIndex.value,

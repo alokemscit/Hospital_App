@@ -1,12 +1,16 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unnecessary_string_interpolations
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:asgar_ali_hospital/custom_widget/custom_bysy_loader.dart';
 import 'package:asgar_ali_hospital/entities/entity_age.dart';
 import 'package:flutter/cupertino.dart';
+ 
 import 'package:http/http.dart' as http;
 import 'package:asgar_ali_hospital/constant/const.dart';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 
 TextStyle customTextStyle = const TextStyle(
   color: Colors.black, fontFamily: appFontMuli,
@@ -62,14 +66,13 @@ hospitalLogo() => Opacity(
       ),
     );
 
-
 Future<String> imageFileToBase64(String fileUrl) async {
   // Fetch the file content using an HTTP request
-  if(!kIsWeb){
+  if (!kIsWeb) {
     File inputFile = File(fileUrl);
     List<int> fileBytes = inputFile.readAsBytesSync();
-   String base64String = base64Encode(fileBytes);
-   return base64String;
+    String base64String = base64Encode(fileBytes);
+    return base64String;
   }
   var response = await http.get(Uri.parse(fileUrl));
 
@@ -88,8 +91,6 @@ Future<String> imageFileToBase64(String fileUrl) async {
 //       bytes,
 //       fit: BoxFit.cover, // Adjust the fit property as needed
 //     );
-
-
 }
 
 CustomCupertinoAlertWithYesNo(BuildContext context, Widget title,
@@ -127,14 +128,10 @@ CustomCupertinoAlertWithYesNo(BuildContext context, Widget title,
   );
 }
 
-TextStyle customTextStyleDefault =const TextStyle(
-                  fontFamily: appFontMuli,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w400);
+TextStyle customTextStyleDefault = const TextStyle(
+    fontFamily: appFontMuli, fontSize: 9, fontWeight: FontWeight.w400);
 
-
-
- Future<Age> AgeCalculator(DateTime birthDate) async {
+Future<Age> AgeCalculator(DateTime birthDate) async {
   final now = DateTime.now();
   int years = now.year - birthDate.year;
   int months = now.month - birthDate.month;
@@ -160,4 +157,24 @@ TextStyle customTextStyleDefault =const TextStyle(
   }
 
   return Age(years: years, months: months, days: days);
+}
+
+Future<void> savePdf(BuildContext context, String url) async {
+  CustomBusyLoader loader = CustomBusyLoader(context: context);
+  try {
+    loader.show();
+    //await Share.share(url);
+    final filename = url.substring(url.lastIndexOf("/") + 1);
+    final response = await http.get(Uri.parse(url));
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/$filename');
+    await file.writeAsBytes(response.bodyBytes);
+    loader.close();
+    await Share.shareFiles(['${file.path}'], text: 'Inv Report');
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('PDF saved')));
+  } catch (e) {
+    loader.close();
+    print(e.toString());
+  }
 }

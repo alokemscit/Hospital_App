@@ -13,19 +13,9 @@ class CustomBusyLoader {
       barrierColor: Colors.black.withOpacity(0.2),
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return Center(
-          child: CupertinoPopupSurface(
-            child: Container(
-              height: 50,
-              width: 50,
-              color: Colors.black,
-              child: const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: CupertinoActivityIndicator(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+        return const Center(
+          child: CupertinoActivityIndicator(
+            color: Colors.black,
           ),
         );
       },

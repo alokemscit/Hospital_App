@@ -3,6 +3,8 @@ import 'package:asgar_ali_hospital/constant/const.dart';
 import 'package:asgar_ali_hospital/data/data_docror_image.dart';
 import 'package:asgar_ali_hospital/data/data_static_user.dart';
 import 'package:asgar_ali_hospital/pages/home_page/controller/home_page_controller.dart';
+import 'package:asgar_ali_hospital/pages/login_page/login_page.dart';
+import 'package:asgar_ali_hospital/pages/main_home_page/controller/main_home_page_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 
@@ -135,6 +137,7 @@ _imageDoctor(HomePageController controller) => Container(
       ),
     );
 _gridView(HomePageController controller) {
+  MainHomePagaeController mController = Get.find<MainHomePagaeController>();
   return Padding(
     padding: const EdgeInsets.only(bottom: 20),
     child: GridView.builder(
@@ -149,9 +152,36 @@ _gridView(HomePageController controller) {
       itemCount: iconList.length,
       itemBuilder: (BuildContext context, index) {
         var list = iconList[index];
-        return GestureDetector(
+        return InkWell(
+          borderRadius: BorderRadius.circular(8),
           onTap: () {
-            //Navigator.pushNamed(context, list['route']);
+            print(iconList[index].id);
+            if (iconList[index].id.toString() == "3" ||
+                iconList[index].id.toString() == "4") {
+              if (DataStaticUser.hcn == '') {
+                CustomCupertinoAlertWithYesNo(
+                    context,
+                    const Text("Alert"),
+                    const Text(
+                        "You have to login first\n Do you want to log in?"),
+                    () {}, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                  );
+                });
+                return;
+              }
+            }
+            if (iconList[index].id == '1') {
+              mController.currentIndex.value = 1;
+            }
+            if (iconList[index].id == '3') {
+              mController.currentIndex.value = 2;
+            }
+            if (iconList[index].id == '4') {
+              mController.currentIndex.value = 3;
+            }
           },
           child: Container(
             padding: const EdgeInsets.all(4),

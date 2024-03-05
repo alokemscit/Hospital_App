@@ -19,6 +19,13 @@ class ModelStatus {
     extra = json['EXTRA'].toString();
   }
 
+  ModelStatus.fromJson_2(Map<String, dynamic> json) {
+    status = json['status'].toString();
+    msg = json['msg'];
+    id = json['id'].toString();
+    extra = json['extra'].toString();
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['STATUS'] = status;

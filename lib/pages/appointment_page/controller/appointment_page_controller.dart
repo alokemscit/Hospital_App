@@ -2,7 +2,8 @@ import 'package:asgar_ali_hospital/common_model/model_gender.dart';
 import 'package:asgar_ali_hospital/common_model/model_status.dart';
 import 'package:asgar_ali_hospital/constant/const.dart';
 import 'package:asgar_ali_hospital/custom_widget/custom_awesome_dialog.dart';
-import 'package:asgar_ali_hospital/custom_widget/custom_bysy_loader%20copy.dart';
+import 'package:asgar_ali_hospital/custom_widget/custom_bysy_loader.dart';
+ 
 import 'package:asgar_ali_hospital/data/data_api.dart';
 import 'package:asgar_ali_hospital/data/data_static_user.dart';
 import 'package:asgar_ali_hospital/entities/entity_age.dart';
