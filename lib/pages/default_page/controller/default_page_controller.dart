@@ -46,7 +46,7 @@ class DefaultPageController extends GetxController {
   @override
   void onClose() {
     //print("Dispose call");
- _timer?.cancel();
+   _timer?.cancel();
     currentPage.value = 0;
     imageUrls.clear();
     pageController.dispose();

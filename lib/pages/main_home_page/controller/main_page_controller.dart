@@ -7,9 +7,11 @@ class MainPageController extends GetxController {
   late data_api api;
   late BuildContext context;
   var list_docunit = <ModelDoctorUnit>[].obs;
+  
 
   @override
   void onInit() async {
+     
     api = data_api();
     try {
       var x = await api.createLead([
