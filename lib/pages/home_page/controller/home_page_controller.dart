@@ -10,12 +10,15 @@ import 'package:asgar_ali_hospital/pages/main_home_page/model/model_doctor_maste
 
 import 'package:get/get.dart';
 
+import '../../../common_model/model_mysql_doctor.dart';
+
 class HomePageController extends GetxController {
   var isLoading = false.obs;
   late data_api api;
   late BuildContext context;
 
   var currentIndex = 0.obs;
+   var list_doctor_mysql=<ModelMySqlDoctor>[].obs;
 
   void viewAll() {
     MainHomePagaeController c = Get.find<MainHomePagaeController>();
@@ -41,6 +44,13 @@ class HomePageController extends GetxController {
 
       list_doctor_master.addAll(x.map((e) => ModelDoctorMaster.fromJson(e)));
       isLoading.value = false;
+      print('doctor call from oracle');
+      if(DataStaticUser.doc_list==[]){
+      var y= await api.get_mysql_doctor();
+      DataStaticUser.doc_list=y.map((e) => ModelMySqlDoctor.fromJson(e)).toList();
+      }
+      
+    //print(y);
       // print(x);
     } catch (e) {
       isLoading.value = false;

@@ -3,8 +3,9 @@
 import 'package:asgar_ali_hospital/constant/const.dart';
 import 'package:asgar_ali_hospital/data/data_api.dart';
 import 'package:asgar_ali_hospital/data/data_docror_image.dart';
- 
+
 import 'package:asgar_ali_hospital/pages/doctor_page/doctor_page_controller/model/model_doctor_unit.dart';
+import 'package:asgar_ali_hospital/pages/doctor_page/model/model_doctor_list.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/model/model_doctor_master.dart';
 import 'package:get/get.dart';
 
@@ -13,11 +14,13 @@ class DoctorPageController extends GetxController {
   late data_api api;
   var list_docunit = <ModelDoctorUnit>[].obs;
   var isLoading = false.obs;
-  var selectedUnit = ''.obs;
+  var selectedUnit = '0'.obs;
   var list_doctor_master = <ModelDoctorMaster>[].obs;
   var list_doctor_master_temp = <ModelDoctorMaster>[].obs;
   final TextEditingController txt_search = TextEditingController();
   late ModelDoctorMaster doctorMaster;
+
+  var list_doctor_list = <ModelDoctorList>[].obs;
 
   void search() {
     selectedUnit.value = '';
@@ -53,10 +56,10 @@ class DoctorPageController extends GetxController {
         {"tag": "63"}
       ]);
       var img = await getDoctorImageList();
-     // print(x);
+      // print(x);
       var t = x.map((e) => ModelDoctorMaster.fromJson(e)).toList();
 
-      t.forEach((item1) {
+       t.forEach((item1) {
         var image = img.firstWhere((item2) => item2.id == item1.dOCID,
             orElse: () => DoctorImage(
                 id: item1.dOCID,
@@ -66,15 +69,11 @@ class DoctorPageController extends GetxController {
         list_doctor_master.add(item1);
       });
       list_doctor_master_temp.addAll(list_doctor_master);
-
-         
-         
-
-
+      x = await api.get_mysql_doctor();
+      list_doctor_list.addAll(x.map((e) => ModelDoctorList.fromJson(e)));
+      print(list_doctor_list.length);
 
       isLoading.value = false;
-    
-    
     } catch (e) {
       isLoading.value = false;
     }

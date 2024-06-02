@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "380886475002",
+    "project_id": "agh-app",
+    "storage_bucket": "agh-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380886475002:android:e4b2d15c1eb83e7286a943",
+        "android_client_info": {
+          "package_name": "com.aghapp.eHealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "380886475002-qrsdh4p0enmmep25npgb2aploorj5n4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrMKdJuiDCTVKu-FP6mS1RWG68zN8r8jY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "380886475002-qrsdh4p0enmmep25npgb2aploorj5n4p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

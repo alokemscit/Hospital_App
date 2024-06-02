@@ -13,6 +13,7 @@ class DefaultPage extends StatelessWidget {
     DefaultPageController controller = Get.put(DefaultPageController());
     controller.context = context;
     return Scaffold(
+     backgroundColor: Colors.white,
       body: Stack(
         children: [
           _pageView(controller),

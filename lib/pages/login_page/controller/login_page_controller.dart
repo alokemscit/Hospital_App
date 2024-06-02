@@ -117,10 +117,26 @@ class LoginPageController extends GetxController {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Pinput(
-                                            length: 5,
-                                            onCompleted: (pin) =>
-                                                pin_no.value = pin,
-                                          ),
+                                              length: 5,
+                                              onCompleted: (pin) {
+                                                pin_no.value = pin;
+                                                 if (pin_no.value.length < 5) {
+                                          dialog
+                                            ..dialogType = DialogType.warning
+                                            ..message = "Invalid pin number!"
+                                            ..show();
+                                          return;
+                                        }
+                                        if (pin_no.value != status.id!) {
+                                          dialog
+                                            ..dialogType = DialogType.warning
+                                            ..message = "Invalid pin number!"
+                                            ..show();
+                                          return;
+                                        }
+                                        finalLogin();
+
+                                              }),
                                         ),
                                       ),
                                     ],
@@ -142,40 +158,7 @@ class LoginPageController extends GetxController {
                                             ..show();
                                           return;
                                         }
-                                        DataStaticUser.hcn = pModel.hCN!;
-                                        DataStaticUser.name = pModel.pATNAME!;
-                                        DataStaticUser.mob = txt_mobile.text;
-                                        DataStaticUser.dob = pModel.dOB!;
-                                        try {
-                                          Uint8List bytes =
-                                              base64Decode(pModel.iMAGE!);
-
-//     // Create an Image widget from the decoded bytes
-                                          DataStaticUser.img = Image.memory(
-                                            bytes,
-                                            fit: BoxFit.cover,
-                                            height:
-                                                55, // Adjust the fit property as needed
-                                          );
-                                        } catch (e) {
-                                          print(e);
-                                        }
-
-                                        AuthProvider().login(
-                                            pModel.hCN!,
-                                            pModel.pATNAME,
-                                            txt_mobile.text,
-                                            pModel.bLOODGRP,
-                                            pModel.sEX,
-                                            pModel.dOB,
-                                            pModel.iMAGE);
-
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const MainHomePagae()),
-                                        );
+                                        finalLogin();
 
                                         // controller.login();
                                       },
@@ -221,6 +204,33 @@ class LoginPageController extends GetxController {
     } catch (e) {
       loader.close();
     }
+  }
+
+  void finalLogin() {
+    DataStaticUser.hcn = pModel.hCN!;
+    DataStaticUser.name = pModel.pATNAME!;
+    DataStaticUser.mob = txt_mobile.text;
+    DataStaticUser.dob = pModel.dOB!;
+    try {
+      Uint8List bytes = base64Decode(pModel.iMAGE!);
+
+//     // Create an Image widget from the decoded bytes
+      DataStaticUser.img = Image.memory(
+        bytes,
+        fit: BoxFit.cover,
+        height: 55, // Adjust the fit property as needed
+      );
+    } catch (e) {
+      print(e);
+    }
+
+    AuthProvider().login(pModel.hCN!, pModel.pATNAME, txt_mobile.text,
+        pModel.bLOODGRP, pModel.sEX, pModel.dOB, pModel.iMAGE);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MainHomePagae()),
+    );
   }
 
   @override

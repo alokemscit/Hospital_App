@@ -119,6 +119,7 @@ class LabReportPageController extends GetxController {
 
       //loader.close();
       isLoadingInv.value = false;
+      //loadInvestigation();
     } catch (e) {
       //loader.close();
       isLoadingInv.value = false;

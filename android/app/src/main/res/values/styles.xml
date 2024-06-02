@@ -1,18 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is off -->
-    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <!-- Show a splash screen on the activity. Automatically removed when
-             the Flutter engine draws its first frame -->
-        <item name="android:windowBackground">@drawable/launch_background</item>
-    </style>
-    <!-- Theme applied to the Android Window as soon as the process has started.
-         This theme determines the color of the Android Window while your
-         Flutter UI initializes, as well as behind your Flutter UI while its
-         running.
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
 
-         This Theme is only used starting with V2 of Flutter's Android embedding. -->
-    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">?android:colorBackground</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:ignore="NewApi">shortEdges</item>
     </style>
+  
+
+    <style name="MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+
+
+    <style name="Theme.MyApplication" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="statusBarBackground">@color/pista</item>
+        <item name="statusBarForeground">@color/pista</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@color/pista</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <!-- Status bar color. -->
+
+
+
+    </style>
+
+
+    <style name="TransparentProgressDialog" parent="Theme.AppCompat.Light">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <style name="EditTextInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/md_grey_300</item>
+        <item name="boxStrokeWidth">0.3dp</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="android:editTextColor">@color/md_grey_800</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:color">@color/md_grey_800</item>
+
+        <item name="hintTextColor">@color/md_indigo_300 </item>
+        <item name="android:textColorHint">@color/gray_light</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
+
+
+
+    <style name="VideoCallStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/cardview_dark_background</item>
+        <item name="colorAccent">@color/cardview_dark_background</item>
+        <item name="android:windowBackground">@color/cardview_dark_background</item>
+        <item name="android:windowNoTitle">true</item>
+
+
+        <item name="windowActionBar">false</item>
+        <item name="statusBarBackground">@color/cardview_dark_background</item>
+        <!--    <item name="statusBarForeground">@color/pista</item>-->
+        <item name="android:statusBarColor" >@color/cardview_dark_background</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+    </style>
+
+
+
 </resources>

@@ -3,9 +3,10 @@
 import 'package:asgar_ali_hospital/constant/const.dart';
 import 'package:asgar_ali_hospital/data/data_static_user.dart';
 import 'package:asgar_ali_hospital/pages/login_page/login_page.dart';
-
+import 'package:asgar_ali_hospital/pages/main_home_page/connection_error_page.dart';
+import 'package:asgar_ali_hospital/pages/main_home_page/controller/connection_controller.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/controller/main_home_page_controller.dart';
-
+ 
 import 'package:get/get.dart';
 
 class MainHomePagae extends StatelessWidget {
@@ -16,72 +17,88 @@ class MainHomePagae extends StatelessWidget {
     MainHomePagaeController controller = Get.put(MainHomePagaeController());
     controller.context = context;
 
-    return Scaffold(
-      //backgroundColor: kBgLightColor,
-      // backgroundColor:appColorPista.withOpacity(0.5),
-      body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Obx(
-            () => Column(
-              children: [
-                45.heightBox,
-                _logo_and_user_part(controller),
-                32.heightBox,
-                Expanded(
-                  child: controller.pageList[controller.currentIndex.value],
-                ),
-              ],
-            ),
-          )),
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-            backgroundColor: Colors.white,
-            selectedFontSize: 13.0,
-            unselectedFontSize: 10.5,
-            selectedLabelStyle: const TextStyle(fontFamily: appFontMuli),
-            type: BottomNavigationBarType.fixed,
-            iconSize: 20.0,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.people_outline),
-                label: 'Doctor',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.liquor_outlined),
-                label: 'Lab Report',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.library_books_sharp),
-                label: 'Prescription',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.devices_other_sharp),
-                label: 'Others',
-              ),
-            ],
-            currentIndex: controller.currentIndex.value,
-            selectedItemColor: appColorLogo,
-            onTap: (v) {
-              if (v == 2 || v == 3) {
-                if (DataStaticUser.hcn == '') {
-                  CustomCupertinoAlertWithYesNo(context, const Text("Alert"),
-                      const Text("You have to login first\n Do you want to log in?"), () {}, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()),
-                    );
-                  });
-                  return;
-                }
-              }
-              controller.currentIndex.value = v;
-            },
-          )),
-    );
+    final ConnectivityService connectivityService =
+        Get.find<ConnectivityService>();
+
+    return Obx(() {
+      if (!connectivityService.isConnected) {
+        //print("fired");
+        return const ConnectionErrorPage();
+      } else {
+        return Scaffold(
+          backgroundColor: appGray100,
+         // backgroundColor: Colors.white,
+          // backgroundColor:appColorPista.withOpacity(0.5),
+          body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Obx(() {
+                return Column(
+                  children: [
+                    32.heightBox,
+                    _logo_and_user_part(controller),
+                    18.heightBox,
+                    Expanded(
+                      child: controller.pageList[controller.currentIndex.value],
+                    ),
+                  ],
+                );
+              })),
+          bottomNavigationBar: Obx(() => BottomNavigationBar(
+                backgroundColor: Colors.white,
+                selectedFontSize: 12.5,
+                unselectedFontSize: 10.5,
+                unselectedLabelStyle:customTextStyle.copyWith(fontSize: 10.5,color: Colors.black),
+                selectedLabelStyle: customTextStyle.copyWith(color: Colors.black,),
+                type: BottomNavigationBarType.fixed,
+                iconSize: 20.0,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.people_outline),
+                    label: 'Doctor',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.liquor_outlined),
+                    label: 'Lab Report',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.library_books_sharp),
+                    label: 'Prescription',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.devices_other_sharp),
+                    label: 'Others',
+                  ),
+                ],
+                currentIndex: controller.currentIndex.value,
+                selectedItemColor: appColorLogoDeep,
+                onTap: (v) {
+                  if (v == 2 || v == 3) {
+                    if (DataStaticUser.hcn == '') {
+                      CustomCupertinoAlertWithYesNo(
+                          context,
+                          const Text("Alert"),
+                          const Text(
+                              "You have to login first\n Do you want to log in?"),
+                          () {}, () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        );
+                      });
+                      return;
+                    }
+                  }
+                  controller.currentIndex.value = v;
+                },
+              )),
+        );
+      }
+    });
   }
 }
 
@@ -93,7 +110,7 @@ _logo_and_user_part(MainHomePagaeController controller) => Row(
           child: Image.asset(
             "assets/images/logo.png",
             fit: BoxFit.cover,
-            height: 55,
+            height: 50,
           ),
         ),
         Column(
@@ -109,8 +126,8 @@ _logo_and_user_part(MainHomePagaeController controller) => Row(
               },
               child: Container(
                   // margin: const EdgeInsets.symmetric(horizontal: 2),
-                  width: 38,
-                  height: 38,
+                  width: 36,
+                  height: 36,
                   // padding: const EdgeInsets.symmetric(horizontal:4),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadiusDirectional.circular(50),
@@ -125,7 +142,7 @@ _logo_and_user_part(MainHomePagaeController controller) => Row(
             Text(
               DataStaticUser.name == '' ? "Geust   " : DataStaticUser.name,
               style: customTextStyleDefault.copyWith(
-                  fontSize: 8, fontWeight: FontWeight.bold),
+                  fontSize: 7.5, fontWeight: FontWeight.w600 ),
             )
             //"Aloke Sikder".text.sm.fontFamily(appFontMuli).make()
           ],

@@ -28,6 +28,7 @@ class DoctorPage extends StatelessWidget {
                     })),
           ],
         ),
+        4.heightBox,
         Obx(
           () => controller.isLoading.value
               ? const Expanded(

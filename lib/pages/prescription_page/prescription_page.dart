@@ -3,7 +3,7 @@ import 'package:asgar_ali_hospital/custom_widget/custom_dropdown.dart';
 import 'package:asgar_ali_hospital/data/data_static_user.dart';
 import 'package:asgar_ali_hospital/pages/prescription_page/controller/prescription_page_controller.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
+ 
 import 'package:get/get.dart';
 
 class PrescriptionPage extends StatelessWidget {

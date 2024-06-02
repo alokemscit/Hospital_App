@@ -5,27 +5,35 @@ import 'package:asgar_ali_hospital/data/data_static_user.dart';
 import 'package:asgar_ali_hospital/pages/home_page/controller/home_page_controller.dart';
 import 'package:asgar_ali_hospital/pages/login_page/login_page.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/controller/main_home_page_controller.dart';
+import 'package:asgar_ali_hospital/pages/online_payment/onlinepayment_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+ 
 import 'package:get/get.dart';
+ 
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
+
+  
+       
+
+
     HomePageController controller = Get.put(HomePageController());
     controller.context = context;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _cursol_part(controller.imgList),
-        28.heightBox,
+        24.heightBox,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "Consultant",
               style: customTextStyleDefault.copyWith(
-                  fontSize: 12, fontWeight: FontWeight.bold),
+                  fontSize: 12.5, fontWeight: FontWeight.bold),
             ),
             InkWell(
               onTap: () {
@@ -34,7 +42,7 @@ class HomePage extends StatelessWidget {
               child: Text(
                 "View All",
                 style: customTextStyleDefault.copyWith(
-                    fontSize: 12,
+                    fontSize: 12.5,
                     color: appColorLogoDeep,
                     fontWeight: FontWeight.w600),
               ),
@@ -43,7 +51,8 @@ class HomePage extends StatelessWidget {
         ),
         // 4.heightBox,
         _imageDoctor(controller),
-        28.heightBox,
+        24.heightBox,
+       
         Expanded(child: SingleChildScrollView(child: _gridView(controller)))
       ],
     );
@@ -52,8 +61,9 @@ class HomePage extends StatelessWidget {
 
 _imageDoctor(HomePageController controller) => Container(
       padding: const EdgeInsets.symmetric(vertical: 6),
-      height: 160,
+      height: 136,
       child: ListView.builder(
+        padding:EdgeInsets.zero,
         scrollDirection: Axis.horizontal,
         itemCount: 10,
         itemBuilder: (context, index) {
@@ -69,13 +79,13 @@ _imageDoctor(HomePageController controller) => Container(
                         spreadRadius: 1,
                         color: appColorGrayDark.withOpacity(0.2)),
                   ]),
-              height: 150,
+              height: 130,
               margin: const EdgeInsets.only(right: 4),
               child: Stack(
                 children: [
                   SizedBox(
-                      height: 110,
-                      width: 110,
+                      height: 86,
+                      width: 86,
                       child: Obx(
                         () => controller.isLoading.value
                             ? const SizedBox()
@@ -86,48 +96,45 @@ _imageDoctor(HomePageController controller) => Container(
                       left: 0,
                       right: 0,
                       bottom: 4,
-                      child: Container(
-                        //color: Colors.white,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Obx(() => controller.isLoading.value
-                                ? const Text("")
-                                : Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 6, left: 6),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          controller.list_doctor_master[index]
-                                                  .dOCTORNAME!.isEmpty
-                                              ? ""
-                                              : controller
-                                                  .list_doctor_master[index]
-                                                  .dOCTORNAME!,
-                                          style: customTextStyle.copyWith(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w800),
-                                        ),
-                                        Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          controller.list_doctor_master[index]
-                                                  .uNIT!.isEmpty
-                                              ? ""
-                                              : controller
-                                                  .list_doctor_master[index]
-                                                  .uNIT!,
-                                          style: customTextStyle.copyWith(
-                                              fontSize: 8,
-                                              fontWeight: FontWeight.w800),
-                                        ),
-                                      ],
-                                    ),
-                                  ))
-                            // controller.list_doctor_master.where((p0) => p0.dOCID==GetDoctorImage().ImageList()[index].id).first.dOCTORNAME!.text.fontFamily(appFontMuli).sm.make()
-                          ],
-                        ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Obx(() => controller.isLoading.value
+                              ? const Text("")
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 6, left: 6),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        controller.list_doctor_master[index]
+                                                .dOCTORNAME!.isEmpty
+                                            ? ""
+                                            : controller
+                                                .list_doctor_master[index]
+                                                .dOCTORNAME!,
+                                        style: customTextStyle.copyWith(
+                                            fontSize: 9.5,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        controller.list_doctor_master[index]
+                                                .uNIT!.isEmpty
+                                            ? ""
+                                            : controller
+                                                .list_doctor_master[index]
+                                                .uNIT!,
+                                        style: customTextStyle.copyWith(
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                          // controller.list_doctor_master.where((p0) => p0.dOCID==GetDoctorImage().ImageList()[index].id).first.dOCTORNAME!.text.fontFamily(appFontMuli).sm.make()
+                        ],
                       ))
                 ],
               ),
@@ -181,6 +188,9 @@ _gridView(HomePageController controller) {
             }
             if (iconList[index].id == '4') {
               mController.currentIndex.value = 3;
+            }
+            if (iconList[index].id == '7') {
+           Get.to(const OnlinePaymentPage());
             }
           },
           child: Container(
@@ -237,14 +247,16 @@ _gridView(HomePageController controller) {
                     ),
                   ),
                   //const SizedBox(height: 8),
+                 
                   Text(
                     list.name,
                     textAlign: TextAlign.center,
                     style: customTextStyleDefault.copyWith(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 8.5,
+                        fontWeight: FontWeight.w600,
                         color: Colors.black.withOpacity(0.8)),
                   ),
+                  4.heightBox,
                 ],
               ),
             ),
@@ -280,7 +292,7 @@ _cursol_part(List<String> img_list) => Container(
             child: ClipRRect(
               borderRadius: BorderRadiusDirectional.circular(8),
               child: Opacity(
-                opacity: 0.7,
+                opacity: 0.8,
                 child: Image.asset(img_list[index],
                     fit: BoxFit.cover, width: context.width),
               ),
@@ -290,50 +302,52 @@ _cursol_part(List<String> img_list) => Container(
       ),
     );
 
-_logo_and_user_part(HomePageController controller) => Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Opacity(
-          opacity: 0.8,
-          child: Image.asset(
-            "assets/images/logo.png",
-            fit: BoxFit.cover,
-            height: 55,
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            InkWell(
-              hoverColor: appColorLogo,
-              highlightColor: appColorPista,
-              borderRadius: BorderRadius.circular(50),
-              onTap: () {
-                controller.logoClick();
-                // print("object");
-              },
-              child: Container(
-                  // margin: const EdgeInsets.symmetric(horizontal: 2),
-                  width: 38,
-                  height: 38,
-                  // padding: const EdgeInsets.symmetric(horizontal:4),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.circular(50),
-                      color: appColorPista),
-                  child: Opacity(
-                    opacity: 0.9,
-                    child: ClipRRect(
-                        borderRadius: BorderRadiusDirectional.circular(50),
-                        child: DataStaticUser.img ?? const Icon(Icons.people)),
-                  )),
-            ),
-            Text(
-              DataStaticUser.name == '' ? "Geust   " : DataStaticUser.name,
-              style: customTextStyleDefault.copyWith(
-                  fontSize: 8, fontWeight: FontWeight.bold),
-            )
-            //"Aloke Sikder".text.sm.fontFamily(appFontMuli).make()
-          ],
-        )
-      ],
-    );
+
+
+// _logo_and_user_part(HomePageController controller) => Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         Opacity(
+//           opacity: 0.9,
+//           child: Image.asset(
+//             "assets/images/logo.png",
+//             fit: BoxFit.cover,
+//             height: 55,
+//           ),
+//         ),
+//         Column(
+//           crossAxisAlignment: CrossAxisAlignment.end,
+//           children: [
+//             InkWell(
+//               hoverColor: appColorLogo,
+//               highlightColor: appColorPista,
+//               borderRadius: BorderRadius.circular(50),
+//               onTap: () {
+//                 controller.logoClick();
+//                 // print("object");
+//               },
+//               child: Container(
+//                   // margin: const EdgeInsets.symmetric(horizontal: 2),
+//                   width: 38,
+//                   height: 38,
+//                   // padding: const EdgeInsets.symmetric(horizontal:4),
+//                   decoration: BoxDecoration(
+//                       borderRadius: BorderRadiusDirectional.circular(50),
+//                       color: appColorPista),
+//                   child: Opacity(
+//                     opacity: 0.9,
+//                     child: ClipRRect(
+//                         borderRadius: BorderRadiusDirectional.circular(50),
+//                         child: DataStaticUser.img ?? const Icon(Icons.people)),
+//                   )),
+//             ),
+//             Text(
+//               DataStaticUser.name == '' ? "Geust   " : DataStaticUser.name,
+//               style: customTextStyleDefault.copyWith(
+//                   fontSize: 8, fontWeight: FontWeight.bold),
+//             )
+//             //"Aloke Sikder".text.sm.fontFamily(appFontMuli).make()
+//           ],
+//         )
+//       ],
+//     );
