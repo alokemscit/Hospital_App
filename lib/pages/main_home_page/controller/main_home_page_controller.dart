@@ -7,6 +7,8 @@ import 'package:asgar_ali_hospital/pages/lab_report_page/lab_report_page.dart';
 import 'package:asgar_ali_hospital/pages/login_page/auth_provider/auth-provider.dart';
 import 'package:asgar_ali_hospital/pages/login_page/login_page.dart';
 import 'package:asgar_ali_hospital/pages/prescription_page/prescription_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
 class MainHomePagaeController extends GetxController {
@@ -23,6 +25,15 @@ class MainHomePagaeController extends GetxController {
       color: Colors.black,
     ),
   ];
+
+  @override
+  void onInit() async {
+    isLoading.value = true;
+    await Firebase.initializeApp();
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    isLoading.value = false;
+    super.onInit();
+  }
 
   void doctorAll() {
     currentIndex.value = 1;

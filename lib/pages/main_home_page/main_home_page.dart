@@ -6,6 +6,7 @@ import 'package:asgar_ali_hospital/pages/login_page/login_page.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/connection_error_page.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/controller/connection_controller.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/controller/main_home_page_controller.dart';
+import 'package:flutter/cupertino.dart';
  
 import 'package:get/get.dart';
 
@@ -29,7 +30,7 @@ class MainHomePagae extends StatelessWidget {
           backgroundColor: appGray100,
          // backgroundColor: Colors.white,
           // backgroundColor:appColorPista.withOpacity(0.5),
-          body: Padding(
+          body: controller.isLoading.value?const Center(child: CupertinoActivityIndicator()):  Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Obx(() {
                 return Column(

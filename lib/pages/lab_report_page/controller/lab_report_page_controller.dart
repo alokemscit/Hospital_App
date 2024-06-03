@@ -4,15 +4,16 @@ import 'package:asgar_ali_hospital/common_model/model_status.dart';
 import 'package:asgar_ali_hospital/constant/const.dart';
 import 'package:asgar_ali_hospital/custom_widget/custom_awesome_dialog.dart';
 import 'package:asgar_ali_hospital/custom_widget/custom_bysy_loader.dart';
- 
+
 import 'package:asgar_ali_hospital/custom_widget/pdf_viewer.dart';
 import 'package:asgar_ali_hospital/data/data_api.dart';
 import 'package:asgar_ali_hospital/data/data_static_user.dart';
 import 'package:asgar_ali_hospital/pages/lab_report_page/model/model_inv_pres.dart';
 import 'package:asgar_ali_hospital/pages/lab_report_page/model/model_mob_hcn.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
- import 'package:flutter/material.dart';
- import 'package:get/get.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class LabReportPageController extends GetxController {
@@ -72,16 +73,17 @@ class LabReportPageController extends GetxController {
     }
   }
 
-  void loadInvestigation() async {
+  void loadInvestigation(String hcn) async {
+    isLoadingInv.value = true;
     loader = CustomBusyLoader(context: context);
     dialog = CustomAwesomeDialog(context: context);
+    list_inv_pres_with_hcn.clear();
+    list_inv_list.clear();
+    List<_InvList> list = [];
     try {
-      isLoadingInv.value = true;
-      list_inv_list.clear();
-      list_inv_pres_with_hcn.clear();
       // loader.show();
       var x = await api.createLead([
-        {"tag": "13", "hcn": selectedHCN.value}
+        {"tag": "13", "hcn": hcn}
       ]);
       list_inv_pres_with_hcn.addAll(x
           .map((e) => ModelInvPresWithHCN.fromJson(e))
@@ -90,7 +92,7 @@ class LabReportPageController extends GetxController {
       Map<String, int> counts = {};
 
       // Count occurrences of DOC_ID, DT, and DOC_NAME combinations
-      var y = list_inv_pres_with_hcn.where((p0) => p0.tP == 'opd');
+      var y = list_inv_pres_with_hcn.where((p0) => p0.tP == 'opd').toList();
       for (var item in y) {
         String key = '${item.dOCID}^${item.dT}^${item.dOCNAME}^${item.mRID}';
         counts[key] = (counts[key] ?? 0) + 1;
@@ -105,7 +107,7 @@ class LabReportPageController extends GetxController {
         var docName = parts[2].trim();
         var mrid = parts[3].trim();
         // print('$docId\t$dt\t$docName\t$value');
-        list_inv_list.add(_InvList(
+        list.add(_InvList(
             docId: docId,
             docName: docName,
             date: dt,
@@ -113,10 +115,11 @@ class LabReportPageController extends GetxController {
             no: value.toString()));
       });
 
-      list_inv_list.sort((a, b) => DateFormat("dd/MM/yyyy")
+      list.sort((a, b) => DateFormat("dd/MM/yyyy")
           .parse(b.date!)
           .compareTo(DateFormat("dd/MM/yyyy").parse(a.date!)));
-
+      list_inv_list.clear();
+      list_inv_list.addAll(list);
       //loader.close();
       isLoadingInv.value = false;
       //loadInvestigation();
@@ -140,6 +143,7 @@ class LabReportPageController extends GetxController {
         {"tag": "14", "mob": DataStaticUser.mob}
       ]);
       list_pat_with_hcn.addAll(x.map((e) => ModelPatWithHCN.fromJson(e)));
+       loadInvestigation(DataStaticUser.hcn);
       // selectedHCN.value = DataStaticUser.hcn;
       isLoading.value = false;
     } catch (e) {
@@ -148,12 +152,15 @@ class LabReportPageController extends GetxController {
   }
 }
 
-class _InvList {
+class _InvList extends Equatable {
   String? docId;
   String? docName;
   String? date;
   String? no;
   String? mrid;
   _InvList({this.docId, this.date, this.docName, this.no, this.mrid});
-}
 
+  @override
+  @override
+  List<Object?> get props => [docId, docName, date, no, mrid];
+}

@@ -19,21 +19,7 @@ class ConnectivityService extends GetxService {
     Connectivity().onConnectivityChanged.listen((result) {
       //print('Connection status changed: $result');
       connectionStatus.value = result;
-      //print(result);
-     //print('abcd');
-      // if (result == ConnectivityResult.none) {
-      //   Get.offAll(() => const ConnectionErrorPage());
-      // }
-
-      //   Get.offAll(() => const ConnectionErrorPage());
-      // }else{
-      //   final userProvider = AuthProvider();
-      //   await userProvider.loadUser();
-
-      //   Get.offAll(() => userProvider.user == null
-      //               ? const DefaultPage()
-      //               : const MainHomePagae(),);
-      // }
+     
     });
   }
 

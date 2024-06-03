@@ -115,8 +115,8 @@ _imageDoctor(HomePageController controller) => Container(
                                                 .list_doctor_master[index]
                                                 .dOCTORNAME!,
                                         style: customTextStyle.copyWith(
-                                            fontSize: 9.5,
-                                            fontWeight: FontWeight.w800),
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                       Text(
                                         overflow: TextOverflow.ellipsis,
@@ -128,7 +128,7 @@ _imageDoctor(HomePageController controller) => Container(
                                                 .uNIT!,
                                         style: customTextStyle.copyWith(
                                             fontSize: 8,
-                                            fontWeight: FontWeight.w800),
+                                            fontWeight: FontWeight.w400),
                                       ),
                                     ],
                                   ),
@@ -252,8 +252,8 @@ _gridView(HomePageController controller) {
                     list.name,
                     textAlign: TextAlign.center,
                     style: customTextStyleDefault.copyWith(
-                        fontSize: 8.5,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w700,
                         color: Colors.black.withOpacity(0.8)),
                   ),
                   4.heightBox,

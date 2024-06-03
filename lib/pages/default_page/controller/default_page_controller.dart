@@ -1,4 +1,5 @@
 import 'package:asgar_ali_hospital/constant/const.dart';
+import 'package:asgar_ali_hospital/constant/service/check_update.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/main_home_page.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -26,11 +27,10 @@ class DefaultPageController extends GetxController {
   }
 
   void gotoMainPage() {
-   _timer?.cancel();
+    _timer?.cancel();
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const MainHomePagae()),
-      
     );
     currentPage.value = 0;
     imageUrls.clear();
@@ -38,16 +38,17 @@ class DefaultPageController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     startAutoScroll();
+    await AppUpdateService.checkForAppUpdate();
     print('default page called');
   }
 
   @override
   void onClose() {
     //print("Dispose call");
-   _timer?.cancel();
+    _timer?.cancel();
     currentPage.value = 0;
     imageUrls.clear();
     pageController.dispose();

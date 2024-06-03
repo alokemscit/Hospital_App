@@ -1,30 +1,21 @@
 import 'package:asgar_ali_hospital/constant/const.dart';
-import 'package:asgar_ali_hospital/constant/service/check_update.dart';
 
 import 'package:asgar_ali_hospital/pages/login_page/auth_provider/auth-provider.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/connection_error_page.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/controller/connection_controller.dart';
-import 'package:asgar_ali_hospital/pages/main_home_page/main_home_page.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
- 
+
 import 'package:provider/provider.dart';
-import 'pages/default_page/default_page.dart';
+
+import 'pages/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.setAutoInitEnabled(true);
-
-  // var x = await checkForUpdate();
-  // print(x);
-  // if (x!.updateAvailability == UpdateAvailability.updateAvailable) {
-  //   print('Update available');
-  // }
+  // await Firebase.initializeApp();
+  // await FirebaseMessaging.instance.setAutoInitEnabled(true);
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
   //SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -51,30 +42,6 @@ class MyApp extends StatelessWidget {
       Get.put(ConnectivityService());
   @override
   Widget build(BuildContext context) {
-// SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-// SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-//   statusBarBrightness: Brightness.light,
-//   statusBarIconBrightness: Brightness.dark,
-//   statusBarColor: Colors.transparent,
-//   systemNavigationBarColor: Colors.transparent,
-// ));
-
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-    //     statusBarIconBrightness: Brightness.dark,
-    //     statusBarColor: Colors.transparent,
-    //     systemNavigationBarColor: Colors.black,
-    //     statusBarBrightness: Brightness.light));
-
-    //     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
-// final Brightness brightness = Theme.of(context).brightness;
-//     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-
-//       statusBarColor: brightness == Brightness.dark ? Colors.black : Colors.blue,
-//       statusBarIconBrightness: brightness == Brightness.dark ? Brightness.light : Brightness.dark,
-//       statusBarBrightness: brightness == Brightness.dark ? Brightness.dark : Brightness.light,
-//     ));
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(
@@ -96,27 +63,13 @@ class MyApp extends StatelessWidget {
                 useMaterial3: true,
               ),
               home: Obx(() {
-                // print("Listiner1111");
-                // String? token = await messaging.getToken();
-                // print(token);
-
-// FirebaseMessaging.instance.onTokenRefresh
-//     .listen((fcmToken) {
-//       // TODO: If necessary send token to application server.
-// print(fcmToken);
-//       // Note: This callback is fired at each app startup and whenever a new
-//       // token is generated.
-//     })
-//     .onError((err) {
-//       // Error getting token.
-//     });
-
                 if (!connectivityService.isConnected) {
                   return const ConnectionErrorPage();
                 } else {
-                  return userProvider.user == null
-                      ? const DefaultPage()
-                      : const MainHomePagae();
+                  return const SplashScreen();
+                  // return userProvider.user == null
+                  //     ? const DefaultPage()
+                  //     : const MainHomePagae();
                 }
               }));
         },

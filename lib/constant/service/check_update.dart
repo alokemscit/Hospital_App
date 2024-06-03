@@ -1,29 +1,13 @@
-import 'package:in_app_update/in_app_update.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
-Future<AppUpdateInfo?> checkForUpdate() async {
-  AppUpdateInfo? _updateInfo;
-  InAppUpdate.checkForUpdate().then((info) {
-    _updateInfo = info;
+class AppUpdateService {
+  static const MethodChannel _channel = MethodChannel('com.aghapp.eHealth/update');
 
-    if (_updateInfo!.updateAvailability == UpdateAvailability.updateAvailable) {
-      InAppUpdate.performImmediateUpdate().catchError((e) {
-        print('error: '+ e.toString());
-        // Handle the error
-      });
+  static Future<void> checkForAppUpdate() async {
+    try {
+      await _channel.invokeMethod('checkForAppUpdate');
+    } on PlatformException catch (e) {
+      print("Failed to check for update: '${e.message}'.");
     }
-    return _updateInfo;
-  }).catchError((e) {
-    return _updateInfo;
-  });
-}
-
-void _launchURL() async {
-  const url =
-      'https://play.google.com/store/apps/details?id=com.aghapp.eHealth&hl=en_US';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }

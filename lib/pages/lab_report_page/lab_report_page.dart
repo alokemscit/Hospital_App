@@ -22,9 +22,9 @@ class LabReportPage extends StatelessWidget {
       if (!_isDropdownReady) {
         // Fire your event here after assigning DropdownMenuItems
         controller.selectedHCN.value = DataStaticUser.hcn;
-        _isDropdownReady = true;
+       // _isDropdownReady = true;
         //  print("called");
-        controller.loadInvestigation();
+       // controller.loadInvestigation();
       }
     });
 
@@ -219,7 +219,7 @@ _headerPart(LabReportPageController controller) => controller.isLoading.value
                           .toList(),
                       onTap: (v) {
                         controller.selectedHCN.value = v!;
-                        controller.loadInvestigation();
+                        controller.loadInvestigation(v);
                       })),
             ],
           ),
