@@ -104,7 +104,7 @@ class LoginPageController extends GetxController {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text(
-                                    "Please enter the secret pin code",
+                                    "Please enter the secret OTP number",
                                     style: TextStyle(
                                         fontFamily: appFontMuli,
                                         fontSize: 18,

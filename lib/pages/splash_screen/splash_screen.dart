@@ -1,5 +1,8 @@
+ 
 import 'package:lottie/lottie.dart';
 
+ 
+ 
 import '../../constant/const.dart';
 import '../main_home_page/main_home_page.dart';
 
@@ -13,20 +16,21 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
+ //CommonController controller = Get.put(CommonController());
   bool _isLarge = false;
   @override
   void initState() {
     super.initState();
     _setText();
     _navigateToHome();
-    
   }
 
   _setText() async {
-    await Future.delayed(const Duration(seconds: 1), () {setState(() {
-      _isLarge = true;
-    });});
-    
+    await Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _isLarge = true;
+      });
+    });
   }
 
   _navigateToHome() async {
@@ -47,12 +51,12 @@ class _SplashScreenState extends State<SplashScreen>
           Align(
             alignment: Alignment.center,
             child: Opacity(
-            opacity: 0.8,
-            child: Image.asset(
-              "assets/images/logo.png",
-              fit: BoxFit.cover,
-              height: 50,
-            ),
+              opacity: 0.8,
+              child: Image.asset(
+                "assets/images/logo.png",
+                fit: BoxFit.cover,
+                height: 50,
+              ),
             ),
           ),
           1.heightBox,
@@ -64,10 +68,10 @@ class _SplashScreenState extends State<SplashScreen>
                     color: Colors.blue,
                     fontWeight: FontWeight.bold)
                 : const TextStyle(
-                    fontSize: 10,
-                    color: Colors.black,
+                    fontSize: 15,
+                    color: Colors.blue,
                     fontWeight: FontWeight.normal),
-             child: const Text('Asgar Ali Hospital'),
+            child: const Text('Asgar Ali Hospital'),
           ),
           12.heightBox,
           Center(

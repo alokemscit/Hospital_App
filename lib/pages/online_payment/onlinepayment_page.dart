@@ -2,8 +2,7 @@ import 'package:asgar_ali_hospital/constant/const.dart';
 import 'package:asgar_ali_hospital/custom_widget/custom_textbox.dart';
 import 'package:asgar_ali_hospital/pages/online_payment/controller/online_payment_controller.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+ 
 import 'package:get/get.dart';
 
 

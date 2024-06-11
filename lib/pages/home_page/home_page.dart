@@ -1,31 +1,30 @@
 import 'package:asgar_ali_hospital/common_model/menu_icon.dart';
 import 'package:asgar_ali_hospital/constant/const.dart';
-import 'package:asgar_ali_hospital/data/data_docror_image.dart';
+
 import 'package:asgar_ali_hospital/data/data_static_user.dart';
 import 'package:asgar_ali_hospital/pages/home_page/controller/home_page_controller.dart';
 import 'package:asgar_ali_hospital/pages/login_page/login_page.dart';
 import 'package:asgar_ali_hospital/pages/main_home_page/controller/main_home_page_controller.dart';
 import 'package:asgar_ali_hospital/pages/online_payment/onlinepayment_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
- 
+import 'package:flutter/cupertino.dart';
+
 import 'package:get/get.dart';
- 
+
+import '../appointment_page/appointment_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
-
-  
-       
-
-
     HomePageController controller = Get.put(HomePageController());
     controller.context = context;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _cursol_part(controller.imgList),
+        Obx(() => controller.isLoading.value
+            ? const Center(child: CupertinoActivityIndicator())
+            : _cursol_part(controller)),
         24.heightBox,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,9 +49,13 @@ class HomePage extends StatelessWidget {
           ],
         ),
         // 4.heightBox,
-        _imageDoctor(controller),
+        Obx(
+          () => controller.isLoading.value
+              ? const Center(child: CupertinoActivityIndicator())
+              : _imageDoctor(controller),
+        ),
         24.heightBox,
-       
+
         Expanded(child: SingleChildScrollView(child: _gridView(controller)))
       ],
     );
@@ -63,80 +66,89 @@ _imageDoctor(HomePageController controller) => Container(
       padding: const EdgeInsets.symmetric(vertical: 6),
       height: 136,
       child: ListView.builder(
-        padding:EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        controller: controller.scrollController,
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: controller.list_doctor_top.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 4,
-                        spreadRadius: 1,
-                        color: appColorGrayDark.withOpacity(0.2)),
-                  ]),
-              height: 130,
-              margin: const EdgeInsets.only(right: 4),
-              child: Stack(
-                children: [
-                  SizedBox(
-                      height: 86,
-                      width: 86,
-                      child: Obx(
-                        () => controller.isLoading.value
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return DoctorAppointment(
+                    doctorMaster: controller.list_doctor_top[index],
+                  );
+                }));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 4,
+                          spreadRadius: 1,
+                          color: appColorGrayDark.withOpacity(0.2)),
+                    ]),
+                height: 130,
+                margin: const EdgeInsets.only(right: 4),
+                child: Stack(
+                  children: [
+                    SizedBox(
+                        height: 86,
+                        width: 86,
+                        child: Obx(() => controller.isLoading.value
                             ? const SizedBox()
                             : Image.network(
-                                'https://www.asgaralihospital.com/storage/${GetDoctorImage().ImageList().where((element) => element.id == controller.list_doctor_master[index].dOCID).isEmpty ? "doctors/vczm1a75nsZZfBfxqpXWvZzDI.webp" : GetDoctorImage().ImageList().where((element) => element.id == controller.list_doctor_master[index].dOCID).first.image!}'),
-                      )),
-                  Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 4,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Obx(() => controller.isLoading.value
-                              ? const Text("")
-                              : Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 6, left: 6),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        controller.list_doctor_master[index]
-                                                .dOCTORNAME!.isEmpty
-                                            ? ""
-                                            : controller
-                                                .list_doctor_master[index]
-                                                .dOCTORNAME!,
-                                        style: customTextStyle.copyWith(
-                                            fontSize: 9,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        controller.list_doctor_master[index]
-                                                .uNIT!.isEmpty
-                                            ? ""
-                                            : controller
-                                                .list_doctor_master[index]
-                                                .uNIT!,
-                                        style: customTextStyle.copyWith(
-                                            fontSize: 8,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                          // controller.list_doctor_master.where((p0) => p0.dOCID==GetDoctorImage().ImageList()[index].id).first.dOCTORNAME!.text.fontFamily(appFontMuli).sm.make()
-                        ],
-                      ))
-                ],
+                                'https://web.asgaralihospital.com/pub/doc_image/${controller.list_doctor_top[index].imagePath!}',
+                              ))),
+                    Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 4,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Obx(() => controller.isLoading.value
+                                ? const Text("")
+                                : Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 6, left: 6),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          controller.list_doctor_top[index]
+                                                  .docName!.isEmpty
+                                              ? ""
+                                              : controller
+                                                  .list_doctor_top[index]
+                                                  .docName!,
+                                          style: customTextStyle.copyWith(
+                                              fontSize: 9,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          controller.list_doctor_top[index]
+                                                  .deptName!.isEmpty
+                                              ? ""
+                                              : controller
+                                                  .list_doctor_top[index]
+                                                  .deptName!,
+                                          style: customTextStyle.copyWith(
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
+                                  ))
+                            // controller.list_doctor_master.where((p0) => p0.dOCID==GetDoctorImage().ImageList()[index].id).first.dOCTORNAME!.text.fontFamily(appFontMuli).sm.make()
+                          ],
+                        ))
+                  ],
+                ),
               ),
             ),
           );
@@ -190,7 +202,7 @@ _gridView(HomePageController controller) {
               mController.currentIndex.value = 3;
             }
             if (iconList[index].id == '7') {
-           Get.to(const OnlinePaymentPage());
+              Get.to(const OnlinePaymentPage());
             }
           },
           child: Container(
@@ -247,7 +259,7 @@ _gridView(HomePageController controller) {
                     ),
                   ),
                   //const SizedBox(height: 8),
-                 
+
                   Text(
                     list.name,
                     textAlign: TextAlign.center,
@@ -267,39 +279,55 @@ _gridView(HomePageController controller) {
   );
 }
 
-_cursol_part(List<String> img_list) => Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadiusDirectional.circular(8),
-          color: appColorGrayLight,
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 5,
-                spreadRadius: 0.5,
-                color: Colors.black.withOpacity(0.23))
-          ]),
-      child: CarouselSlider.builder(
-        itemCount: img_list.length,
-        options: CarouselOptions(
-          height: 90,
-          autoPlay: true,
-          // aspectRatio: 2,
-          viewportFraction: 1,
-          enlargeCenterPage: false,
-        ),
-        itemBuilder: (context, index, realIdx) {
-          return Container(
-            padding: EdgeInsets.zero,
-            child: ClipRRect(
-              borderRadius: BorderRadiusDirectional.circular(8),
-              child: Opacity(
-                opacity: 0.8,
-                child: Image.asset(img_list[index],
-                    fit: BoxFit.cover, width: context.width),
+_cursol_part(HomePageController controller) => Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 90,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.circular(8),
+                color: appColorGrayLight,
+                //color: Colors.black,
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 5,
+                      spreadRadius: 0.5,
+                      color: Colors.black.withOpacity(0.23))
+                ]),
+            child: CarouselSlider.builder(
+              itemCount: controller.lis_banner.length,
+              options: CarouselOptions(
+                height: 100,
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 6),
+                //  autoPlayAnimationDuration : const Duration(seconds: 5),
+                // aspectRatio: 2,
+                viewportFraction: 1,
+                enlargeCenterPage: false,
               ),
+              itemBuilder: (context, index, realIdx) {
+                //  print(controller.lis_banner[index]);
+                return Container(
+                  width: double.infinity,
+                  // color: Colors.amber,
+                  padding: EdgeInsets.zero,
+                  child: ClipRRect(
+                    borderRadius: BorderRadiusDirectional.circular(8),
+                    child: Opacity(
+                      opacity: 0.8,
+                      child: Image.network(
+                        'https://web.asgaralihospital.com/pub/app_banner/${controller.lis_banner[index].name}',
+
+                        fit: BoxFit.fill, // Adjust height as needed
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
+          ),
+        ),
+      ],
     );
 
 

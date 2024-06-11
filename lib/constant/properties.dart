@@ -178,3 +178,13 @@ Future<void> savePdf(BuildContext context, String url) async {
     print(e.toString());
   }
 }
+
+Map<int, TableColumnWidth> CustomColumnWidthGenarator(List<int> columnWidth) {
+  final Map<int, TableColumnWidth> columnWidthMap = {};
+
+  for (int i = 0; i < columnWidth.length; i++) {
+    columnWidthMap[i] = FlexColumnWidth(columnWidth[i].toDouble());
+  }
+
+  return columnWidthMap;
+}
