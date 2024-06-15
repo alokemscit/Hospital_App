@@ -25,8 +25,7 @@ class MainActivity: FlutterActivity() {
     private val IMMEDIATE_APP_UPDATE_REQ_CODE = 124
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-        checkForAppUpdate()
+        Log.i("MainActivity", "OK-1")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.decorView.systemUiVisibility = (
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
@@ -39,12 +38,15 @@ class MainActivity: FlutterActivity() {
             window.statusBarColor = android.graphics.Color.TRANSPARENT
            // window.navigationBarColor = android.graphics.Color.TRANSPARENT
         }
+         
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        checkForAppUpdate()
 
     }
 
     private fun checkForAppUpdate() {
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-
+        Log.i("MainActivity", "OK-2")
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                 appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
@@ -76,8 +78,19 @@ class MainActivity: FlutterActivity() {
             .setMethodCallHandler { call, result ->
                 if (call.method == "checkForAppUpdate") {
                     checkForAppUpdate()
-                    result.success(null)
-                } else {
+                    result.success("ok-method call")
+                }else if(call.method=="status_bar_change"){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                        window.statusBarColor = android.graphics.Color.TRANSPARENT
+                       // window.navigationBarColor = android.graphics.Color.TRANSPARENT
+                    }
+                    result.success("ok-method call 2")
+                }
+                
+                else {
                     result.notImplemented()
                 }
             }
