@@ -22,12 +22,7 @@ class PrescriptionPageController extends GetxController {
   var list_inv_pres_with_hcn = <ModelInvPresWithHCN>[].obs;
   var selectedHCN = ''.obs;
 
-
-
-
-
-
-void viewPrescription(ModelInvPresWithHCN e) async {
+  void viewPrescription(ModelInvPresWithHCN e) async {
     loader = CustomBusyLoader(context: context);
     dialog = CustomAwesomeDialog(context: context);
     try {
@@ -70,15 +65,6 @@ void viewPrescription(ModelInvPresWithHCN e) async {
     }
   }
 
-
-
-
-
-
-
-
-
-
   void loadPrescription() async {
     loader = CustomBusyLoader(context: context);
     dialog = CustomAwesomeDialog(context: context);
@@ -88,7 +74,7 @@ void viewPrescription(ModelInvPresWithHCN e) async {
       list_inv_pres_with_hcn.clear();
       // loader.show();
       var x = await api.createLead([
-        {"tag": "13", "hcn": selectedHCN.value}
+        {"tag": "13", "hcn": DataStaticUser.hcn}
       ]);
       // print(x);
       list_inv_pres_with_hcn.addAll(x
@@ -99,7 +85,6 @@ void viewPrescription(ModelInvPresWithHCN e) async {
           .parse(b.dT!)
           .compareTo(DateFormat("dd/MM/yyyy").parse(a.dT!)));
 
-    
       isLoadingInv.value = false;
     } catch (e) {
       //loader.close();
@@ -122,6 +107,7 @@ void viewPrescription(ModelInvPresWithHCN e) async {
       ]);
       list_pat_with_hcn.addAll(x.map((e) => ModelPatWithHCN.fromJson(e)));
       // selectedHCN.value = DataStaticUser.hcn;
+      loadPrescription();
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;

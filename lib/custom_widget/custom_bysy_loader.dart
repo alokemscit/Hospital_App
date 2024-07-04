@@ -10,7 +10,7 @@ class CustomBusyLoader {
     //print("object");
     return showDialog<void>(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.2),
+      barrierColor: Colors.black.withOpacity(0.3),
       barrierDismissible: false,
       builder: (BuildContext context) {
         return const Center(

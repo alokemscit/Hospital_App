@@ -25,20 +25,20 @@ class LoginPageController extends GetxController {
   final TextEditingController txt_mobile = TextEditingController();
   late ModelPatitentUser pModel;
   var pin_no = ''.obs;
-
+  //final FocusNode focusnode = FocusNode();
   login() {
     dialog = CustomAwesomeDialog(context: context);
     loader = CustomBusyLoader(context: context);
     if (txt_hcn.text.length < 11) {
       dialog
-        ..message = "Please eneter valid HCN"
+        ..message = "Please enter valid HCN"
         ..dialogType = DialogType.warning
         ..show();
       return;
     }
     if (txt_mobile.text.length < 11) {
       dialog
-        ..message = "Please eneter valid moble number"
+        ..message = "Please enter valid moble number"
         ..dialogType = DialogType.warning
         ..show();
       return;
@@ -51,7 +51,7 @@ class LoginPageController extends GetxController {
         if (value.isEmpty) {
           loader.close();
           dialog
-            ..message = "Please eneter valid HCN and moble number"
+            ..message = "Please enter valid HCN and moble number"
             ..dialogType = DialogType.error
             ..show();
           return;
@@ -80,6 +80,7 @@ class LoginPageController extends GetxController {
             return;
           }
           pin_no.value = '';
+
           showDialog(
               barrierDismissible: false,
               context: context,
@@ -104,7 +105,7 @@ class LoginPageController extends GetxController {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text(
-                                    "Please enter the secret pin code",
+                                    "Please enter the secret OTP number",
                                     style: TextStyle(
                                         fontFamily: appFontMuli,
                                         fontSize: 18,
@@ -117,10 +118,32 @@ class LoginPageController extends GetxController {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Pinput(
-                                            length: 5,
-                                            onCompleted: (pin) =>
-                                                pin_no.value = pin,
-                                          ),
+                                              autofocus: true,
+                                             // focusNode: focusnode,
+                                              length: 5,
+                                              onCompleted: (pin) {
+                                                pin_no.value = pin;
+                                                if (pin_no.value.length < 5) {
+                                                  dialog
+                                                    ..dialogType =
+                                                        DialogType.warning
+                                                    ..message =
+                                                        "Invalid pin number!"
+                                                    ..show();
+                                                  return;
+                                                }
+                                                if (pin_no.value !=
+                                                    status.id!) {
+                                                  dialog
+                                                    ..dialogType =
+                                                        DialogType.warning
+                                                    ..message =
+                                                        "Invalid pin number!"
+                                                    ..show();
+                                                  return;
+                                                }
+                                                finalLogin();
+                                              }),
                                         ),
                                       ),
                                     ],
@@ -142,40 +165,7 @@ class LoginPageController extends GetxController {
                                             ..show();
                                           return;
                                         }
-                                        DataStaticUser.hcn = pModel.hCN!;
-                                        DataStaticUser.name = pModel.pATNAME!;
-                                        DataStaticUser.mob = txt_mobile.text;
-                                        DataStaticUser.dob = pModel.dOB!;
-                                        try {
-                                          Uint8List bytes =
-                                              base64Decode(pModel.iMAGE!);
-
-//     // Create an Image widget from the decoded bytes
-                                          DataStaticUser.img = Image.memory(
-                                            bytes,
-                                            fit: BoxFit.cover,
-                                            height:
-                                                55, // Adjust the fit property as needed
-                                          );
-                                        } catch (e) {
-                                          print(e);
-                                        }
-
-                                        AuthProvider().login(
-                                            pModel.hCN!,
-                                            pModel.pATNAME,
-                                            txt_mobile.text,
-                                            pModel.bLOODGRP,
-                                            pModel.sEX,
-                                            pModel.dOB,
-                                            pModel.iMAGE);
-
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const MainHomePagae()),
-                                        );
+                                        finalLogin();
 
                                         // controller.login();
                                       },
@@ -214,13 +204,44 @@ class LoginPageController extends GetxController {
                   ),
                 );
               });
-        });
 
+        //       Future.delayed(Duration(seconds: 1), () {
+        //    FocusScope.of(context).requestFocus(focusnode);
+        // });
+        });
+        
         // print(value);
       });
     } catch (e) {
       loader.close();
     }
+  }
+
+  void finalLogin() {
+    DataStaticUser.hcn = pModel.hCN!;
+    DataStaticUser.name = pModel.pATNAME!;
+    DataStaticUser.mob = txt_mobile.text;
+    DataStaticUser.dob = pModel.dOB!;
+    try {
+      Uint8List bytes = base64Decode(pModel.iMAGE!);
+
+//     // Create an Image widget from the decoded bytes
+      DataStaticUser.img = Image.memory(
+        bytes,
+        fit: BoxFit.cover,
+        height: 55, // Adjust the fit property as needed
+      );
+    } catch (e) {
+      print(e);
+    }
+
+    AuthProvider().login(pModel.hCN!, pModel.pATNAME, txt_mobile.text,
+        pModel.bLOODGRP, pModel.sEX, pModel.dOB, pModel.iMAGE);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MainHomePagae()),
+    );
   }
 
   @override

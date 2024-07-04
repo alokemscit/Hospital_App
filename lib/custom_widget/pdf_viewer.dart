@@ -1,4 +1,5 @@
 import 'package:asgar_ali_hospital/constant/const.dart';
+import 'package:asgar_ali_hospital/custom_widget/custom_widget_list.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
@@ -18,6 +19,10 @@ class PDFViewerFromUrl extends StatelessWidget {
       backgroundColor:kBgLightColor,
       appBar: AppBar(
         backgroundColor:kBgLightColor,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: customBackButton(context,(){},false),
+        ),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 8),
